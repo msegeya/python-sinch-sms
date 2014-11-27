@@ -4,8 +4,11 @@ sinchsms - a module to send sms using the Sinch REST apis, www.sinch.com
 
 import requests
 
+
 class SinchSMS(object):
+
     """ A class for handling communication with the Sinch REST apis. """
+
     def __init__(self, app_key, app_secret):
         """Create a SinchSMS client with the provided app_key and app_secret.
 
@@ -24,7 +27,7 @@ class SinchSMS(object):
         try:
             result = response.json()
         except ValueError as exception:
-            return {'errorCode':1, 'message':str(exception)}
+            return {'errorCode': 1, 'message': str(exception)}
 
         return result
 
@@ -71,4 +74,3 @@ class SinchSMS(object):
         url = 'https://messagingApi.sinch.com/v1/message/status/' + str(message_id)
 
         return self._request(url)
-
