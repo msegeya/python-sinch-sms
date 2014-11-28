@@ -1,13 +1,16 @@
+#!/usr/bin/env python
 """
 sinchsms - a module to send sms using the Sinch REST apis, www.sinch.com
 """
 
 import requests
 
-
 class SinchSMS(object):
 
     """ A class for handling communication with the Sinch REST apis. """
+
+    SEND_SMS_URL = 'https://messagingApi.sinch.com/v1/sms/'
+    CHECK_STATUS_URL = 'https://messagingApi.sinch.com/v1/message/status/'
 
     def __init__(self, app_key, app_secret):
         """Create a SinchSMS client with the provided app_key and app_secret.
@@ -18,7 +21,10 @@ class SinchSMS(object):
         self._auth = ('application:' + app_key, app_secret)
 
     def _request(self, url, values=None):
-        """ Send a request and read response. """
+        """ Send a request and read response.
+
+            Sends a get request if values are None, post request otherwise.
+        """
         if values:
             response = requests.post(url, json=values, auth=self._auth)
         else:
@@ -53,9 +59,7 @@ class SinchSMS(object):
         if from_number is not None:
             values['From'] = from_number
 
-        url = 'https://messagingApi.sinch.com/v1/sms/' + to_number
-
-        return self._request(url, values)
+        return self._request(self.SEND_SMS_URL + to_number, values)
 
     def check_status(self, message_id):
         """ Request the status of a message with the provided id and return a response dictionary.
@@ -71,6 +75,35 @@ class SinchSMS(object):
                           invalid number for instance.
         """
 
-        url = 'https://messagingApi.sinch.com/v1/message/status/' + str(message_id)
+        return self._request(self.CHECK_STATUS_URL + str(message_id))
 
-        return self._request(url)
+def _main():
+    """ A simple demo to be used from command line. """
+    import sys
+
+    def log(message):
+        print(message)
+
+    def print_usage():
+        log('usage: %s <application key> <application secret> send <number> <message> <from_number>' % sys.argv[0])
+        log('       %s <application key> <application secret> status <message_id>' % sys.argv[0])
+
+    if len(sys.argv) > 4 and sys.argv[3] == 'send':
+        key, secret, number, message = sys.argv[1], sys.argv[2], sys.argv[4], sys.argv[5]
+        client = SinchSMS(key, secret)
+        if len(sys.argv) > 6:
+            log(client.send_message(number, message, sys.argv[6]))
+        else:
+            log(client.send_message(number, message))
+    elif len(sys.argv) > 3 and sys.argv[3] == 'status':
+        key, secret, message_id = sys.argv[1], sys.argv[2], sys.argv[4]
+        client = SinchSMS(key, secret)
+        log(client.check_status(message_id))
+    else:
+        print_usage()
+        sys.exit(1)
+
+    sys.exit(0)
+
+if __name__ == '__main__':
+    _main()
