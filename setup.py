@@ -13,12 +13,11 @@ setup(
   author_email = 'slava@sinch.com',
   url = 'https://github.com/sinch/python-sinch-sms.git',
   keywords = ['sms', 'sinch'],
-  install_requires = ['requests'],
   classifiers = [
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: Apple Public Source License",
+        "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Communications",
