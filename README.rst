@@ -32,7 +32,7 @@ Usage example
         response = client.check_status(message_id)
     print(response['Status'])
 
-\_Note: Visit the dashboard at sinch.com to locate your application key
+.. note:: Visit the dashboard at sinch.com to locate your application key
 and secret.
 
 Using as command line script
