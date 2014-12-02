@@ -33,8 +33,8 @@ class SinchSMS(object):
             Sends a get request if values are None, post request otherwise.
         """
         if values:
-            jsonData = json.dumps(values)
-            request = urllib2.Request(url, jsonData.encode())
+            json_data = json.dumps(values)
+            request = urllib2.Request(url, json_data.encode())
             request.add_header('content-type', 'application/json')
             request.add_header('authorization', self._auth)
             connection = urllib2.urlopen(request)
