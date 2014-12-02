@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 
 def readme():
     with open('README.rst') as f:
@@ -13,7 +13,7 @@ setup(
   author_email = 'slava@sinch.com',
   url = 'https://github.com/sinch/python-sinch-sms.git',
   keywords = ['sms', 'sinch'],
-  requires = ['requests'],
+  install_requires = ['requests'],
   classifiers = [
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
