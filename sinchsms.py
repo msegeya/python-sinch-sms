@@ -3,7 +3,13 @@
 sinchsms - a module to send sms using the Sinch REST apis, www.sinch.com
 """
 
-import requests
+try:
+    import urllib.request as urllib2
+except ImportError:
+    import urllib2
+
+import json
+import base64
 
 class SinchSMS(object):
 
@@ -18,7 +24,8 @@ class SinchSMS(object):
            Visit your dashboard at sinch.com to locate your application key and secret.
            These can be found under apps/credentials section.
         """
-        self._auth = ('application:' + app_key, app_secret)
+        b64bytes = base64.b64encode(('application:%s:%s' % (app_key, app_secret)).encode())
+        self._auth = 'basic %s' % b64bytes.decode('ascii')
 
     def _request(self, url, values=None):
         """ Send a request and read response.
@@ -26,12 +33,22 @@ class SinchSMS(object):
             Sends a get request if values are None, post request otherwise.
         """
         if values:
-            response = requests.post(url, json=values, auth=self._auth)
+            jsonData = json.dumps(values)
+            request = urllib2.Request(url, jsonData.encode())
+            request.add_header('content-type', 'application/json')
+            request.add_header('authorization', self._auth)
+            connection = urllib2.urlopen(request)
+            response = connection.read()
+            connection.close()
         else:
-            response = requests.get(url, auth=self._auth)
+            request = urllib2.Request(url)
+            request.add_header('authorization', self._auth)
+            connection = urllib2.urlopen(request)
+            response = connection.read()
+            connection.close()
 
         try:
-            result = response.json()
+            result = json.loads(response.decode())
         except ValueError as exception:
             return {'errorCode': 1, 'message': str(exception)}
 
