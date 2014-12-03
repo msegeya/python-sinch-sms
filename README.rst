@@ -34,7 +34,7 @@ Usage example
 
 .. note::
 
-    Visit the dashboard at sinch.com to locate your application key and secret.
+    You will need a Sinch account for getting your application key and secret. Visit www.sinch.com to get started.
 
 Using as command line script
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
