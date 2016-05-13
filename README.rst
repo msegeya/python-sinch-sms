@@ -23,14 +23,14 @@ Usage example
 
     print("Sending '%s' to %s" % (message, number))
     response = client.send_message(number, message)
-    message_id = response['MessageId']
+    message_id = response['messageId']
 
     response = client.check_status(message_id)
-    while response['Status'] != 'Successful':
-        print(response['Status'])
+    while response['status'] != 'Successful':
+        print(response['status'])
         time.sleep(1)
         response = client.check_status(message_id)
-    print(response['Status'])
+    print(response['status'])
 
 .. note::
 
