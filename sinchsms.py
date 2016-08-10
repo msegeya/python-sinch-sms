@@ -81,7 +81,7 @@ class SinchSMS(object):
     def check_status(self, message_id):
         """ Request the status of a message with the provided id and return a response dictionary.
 
-            Returns a dictionary that contains a 'Status' key with the status value string or
+            Returns a dictionary that contains a 'status' key with the status value string or
             contains 'errorCode' and 'message' on error.
 
             Status may have one of four values:
