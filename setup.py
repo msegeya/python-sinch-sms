@@ -6,7 +6,7 @@ def readme():
 
 setup(
   name = 'sinchsms',
-  version = '1.0.3',
+  version = '1.0.4',
   description = 'A module to send sms using the Sinch REST apis, www.sinch.com',
   long_description = readme(),
   author = 'Slava Savitskiy',
